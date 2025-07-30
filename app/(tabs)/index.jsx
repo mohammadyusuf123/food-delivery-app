@@ -1,37 +1,12 @@
 import { Fragment } from "react";
 import { FlatList, Image, Pressable, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
-import { images, offers } from "../constant/index";
-import "./global.css";
+import CartButton from "../../components/CartButton";
+import { images, offers } from "../../constant/index";
+import "../global.css";
 export default function Index() {
   return (
    <SafeAreaView className="flex-1 bg-white">
-    <View className="flex-row justify-between px-4 py-4 mt-10">
-        <View className='flex-start '>
-          <TouchableOpacity>
-            <Text className="text-lg text-primary">Deliver to</Text>
-            <View className="flex-row">
-              <Text className="text-lg text-black">New York</Text>
-              <Image
-                source={images.arrowDown}
-                className="size-3 m-2"
-                alt=""
-                resizeMode="contain"
-                tintColor="#000"
-              />
-            </View>
-          </TouchableOpacity>
-        </View>
-       <View className="flex-end bg-black rounded-full px-4 py-3 mr-3 relative">
-        <Text className="text-white text-sm absolute -top-2 right-0 bg-primary rounded-full px-2 py-1">4</Text>
-         <Image
-          source={images.bag}
-          className="size-6"
-          alt=""
-          resizeMode="contain"
-          tintColor='#ffffff'
-        />
-       </View>
-    </View>
+  
     <FlatList 
       data={offers}
       keyExtractor={(item) => item.id.toString()}
@@ -59,6 +34,7 @@ export default function Index() {
                       tintColor="#fffff"
                     />
                   </View>
+                  
                 </Fragment>
               )}
             </Pressable>
@@ -66,6 +42,26 @@ export default function Index() {
         );
       }}
       contentContainerStyle={{ padding: 16 }}
+      ListHeaderComponent={() => (
+          <View className="flex-row justify-between px-4 py-4 mt-10">
+        <View className='flex-start '>
+          <TouchableOpacity>
+            <Text className="text-lg text-primary">Deliver to</Text>
+            <View className="flex-row">
+              <Text className="text-lg text-black">New York</Text>
+              <Image
+                source={images.arrowDown}
+                className="size-3 m-2"
+                alt=""
+                resizeMode="contain"
+                tintColor="#000"
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <CartButton item={3} />
+    </View>
+      )}
     />
    </SafeAreaView>
   );

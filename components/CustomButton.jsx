@@ -20,7 +20,7 @@ const CustomButton = ({
       {isLoading ? (
         <ActivityIndicator size="small" color="#fff" />
       ) : (
-        <Text style={[styles.buttonText, textStyle]}>{title}</Text>
+        <Text className="text-white base-bold" style={[styles.buttonText, textStyle]}>{title}</Text>
       )}    
     </TouchableOpacity>
   )

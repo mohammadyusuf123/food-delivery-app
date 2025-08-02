@@ -1,7 +1,7 @@
  
 import { Link } from 'expo-router';
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 import CustomButton from '../../components/CustomButton';
 import CustomInput from '../../components/CustomInput';
 
@@ -13,6 +13,8 @@ const SignIn = () => {
       password: ''
     });
   const handleSignUp = () => {
+    if(!form.name || !form.email || !form.password) return Alert.alert("Error",'Please fill in all fields');
+  
     console.log('Form Data:', form);
   }
   return (

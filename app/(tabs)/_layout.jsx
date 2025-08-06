@@ -1,6 +1,10 @@
-import { Slot } from 'expo-router'
-
+import { Redirect, Slot } from 'expo-router';
+import useAuthStore from "../../store/authStore";
 const TabLayout = () => {
+  const {isAuthenticated} = useAuthStore();
+  if (!isAuthenticated) {
+    return <Redirect to="/signin" />; // Render the auth slot if not authenticated
+  }
   return <Slot/>
   //  <Tabs >
   //     <Tabs.Screen name="index" options={{ headerShown: false,

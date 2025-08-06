@@ -1,10 +1,13 @@
+ 
 /* eslint-disable react/no-unescaped-entities */
  
-import { Link } from 'expo-router'
-import { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import CustomButton from '../../components/CustomButton'
-import CustomInput from '../../components/CustomInput'
+import * as Sentry from '@sentry/react-native';
+import { Link, router } from 'expo-router';
+import { useState } from 'react';
+import { Alert, StyleSheet, Text, View } from 'react-native';
+import CustomButton from '../../components/CustomButton';
+import CustomInput from '../../components/CustomInput';
+import { signIn } from '../../libs/appwrite';
 
 const SignIn = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -12,29 +15,40 @@ const SignIn = () => {
     email: '',
     password: ''
   });
-  const handleSignIn = () => {
-    console.log('Form Data:', form);
-    // isSubmitting(true);
-    // if(!form.email || !form.password) {
-    //   Alert.alert("Error",'Please fill in all fields');
-    //   isSubmitting(false);
-    //   return;
-    // }
-    // try {
-    //   //AppWrite sign-in logic here
-    //   // const response = await appwriteClient.account.createEmailSession(form.email, form.password);
-    //   // if(response) {       
-    //   //   console.log(response); 
-    //   //   Alert.alert('Sign in successful');
-    //   // }
-    //   // For demonstration, we will just log the form data
-    //   // Alert.alert("Success",'Sign in successful',);
-    //   // Reset form after successful sign-in
-    // } catch (error) {
-    //   Alert.alert('Error signing in', error.message);
-    // }finally {  
-    // isSubmitting(false);
-    // }
+  const handleSignIn = async() => {
+    const { email, password } = form;
+    if(!email || !password) {
+      Alert.alert("Error",'Please fill in all fields');
+      return;
+    }
+      setIsSubmitting(true);
+  //      try {
+  //   // Check if already logged in
+  //   const currentSession = await account.get();
+  //   if (currentSession) {
+  //       await account.deleteSession("current");
+  //        <Redirect href="/" />;
+  //     console.log("signed out:", currentSession.email);
+     
+  //   }
+  // } catch (error) {
+  //   // If error, likely not signed in — so we proceed to sign in
+  // }
+    try {
+      //AppWrite sign-in logic here
+      const response = await signIn({email,password});
+      console.log(response);
+      if(response) {
+        console.log(response);
+        Alert.alert('Sign in successful');
+        router.push('/'); // Navigate to home page after successful sign-in
+      }
+    } catch (error) {
+      Alert.alert('Error signing in', error.message);
+      Sentry.captureException(error);
+    }finally {  
+    setIsSubmitting(false);
+    }
   }
   return (
        <View className='gap-10 bg-white rounded-lg p-5 pt-5'>

@@ -27,7 +27,7 @@ export const databases = new Databases(client);
 export const storage = new Storage(client);
 const avatars = new Avatars(client);
 
-export const createUser = async (email, password, name) => {
+export const createUser = async ({ email, password, name }) => {
   try {
     const newAccount = await account.create(ID.unique(), email, password, name);
     if (!newAccount) throw Error;
@@ -47,7 +47,7 @@ export const createUser = async (email, password, name) => {
   }
 };
 
-export const signIn = async (email, password) => {
+export const signIn = async ({ email, password }) => {
   try {
     const session = await account.createEmailPasswordSession(email, password);
   } catch (e) {
@@ -75,7 +75,7 @@ export const getCurrentUser = async () => {
   }
 };
 
-export const getMenu = async (category, query) => {
+export const getMenu = async ({ category, query }) => {
   try {
     const queries = [];
 
